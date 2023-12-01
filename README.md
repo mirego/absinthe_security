@@ -6,6 +6,16 @@
   <a href="https://hex.pm/packages/absinthe_security"><img src="https://img.shields.io/hexpm/v/absinthe_security.svg" /></a>
 </div>
 
+## Description
+
+This library is designed to enhance the security of your GraphQL API built with Absinthe by providing convenient utilities for query validation.
+
+***Directive Limit Validation***: Ensure GraphQL queries don't contain an excessive number of directives, preventing potential security vulnerabilities.
+
+***Alias Limit Validation***: Validate queries to ensure they don't use an excessive number of aliases, promoting efficient and maintainable code.
+
+***Query Depth Validation***: Guard against overly nested queries by validating the depth of GraphQL queries, mitigating potential performance issues.
+
 ## Installation
 
 ### Project dependency
