@@ -7,7 +7,7 @@ defmodule AbsintheSecurity.MixProject do
     [
       app: :absinthe_security,
       version: @version,
-      elixir: "~> 1.15",
+      elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       description: "This library provides security utilities to validate a GraphQL query before executing it.",
       source_url: "https://github.com/mirego/absinthe_security",
