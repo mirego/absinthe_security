@@ -1,0 +1,31 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        elixir-version: [1.15.x, 1.14.x, 1.13.x, 1.12.x]
+        include:
+          - elixir-version: 1.15.x
+            otp-version: 26.x
+          - elixir-version: 1.14.x
+            otp-version: 25.x
+          - elixir-version: 1.13.x
+            otp-version: 25.x
+          - elixir-version: 1.12.x
+            otp-version: 24.x
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp-version }}
+          elixir-version: ${{ matrix.elixir-version }}
+      - run: make dependencies
+      - run: make lint
+      - run: make test
+      - run: mix hex.publish --dry-run
+        env:
+          HEX_API_KEY: DRYRUN

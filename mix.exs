@@ -1,28 +1,54 @@
 defmodule AbsintheSecurity.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [
       app: :absinthe_security,
-      version: "0.1.0",
-      elixir: "~> 1.14",
-      start_permanent: Mix.env() == :prod,
+      version: @version,
+      elixir: "~> 1.15",
+      elixirc_paths: elixirc_paths(Mix.env()),
+      description: "This library provides security utilities to validate a GraphQL query before executing it.",
+      source_url: "https://github.com/mirego/absinthe_security",
+      homepage_url: "https://github.com/mirego/absinthe_security",
+      docs: [
+        extras: ["README.md"],
+        main: "readme",
+        source_ref: "v#{@version}",
+        source_url: "https://github.com/mirego/absinthe_security"
+      ],
+      start_permanent: false,
+      package: package(),
       deps: deps()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:absinthe, "~> 1.7"},
+      {:credo_naming, "~> 0.4", only: [:dev, :test], runtime: false},
+      {:styler, "~> 0.10", only: [:dev, :test], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false}
     ]
+  end
+
+  defp package do
+    %{
+      maintainers: ["Mirego"],
+      licenses: ["BSD-3-Clause"],
+      links: %{
+        "GitHub" => "https://github.com/mirego/absinthe_security"
+      }
+    }
   end
 end
