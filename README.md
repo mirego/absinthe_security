@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/11348/75812982-32921e80-5d5d-11ea-9c3b-ad46fd6005f9.png" width="500" />
+  <img src="https://github.com/mirego/absinthe_security/assets/11348/3814bf39-6a9d-4e72-9029-8e66b0b9f761" width="800" />
   <br /><br />
-  <code>AbsintheSecurity</code> provides security utilities to validate a GraphQL query before executing it.
-  <a href="https://github.com/mirego/absinthe_security/actions?query=workflow%3ACI+branch%3Amain"><img src="https://github.com/mirego/absinthe_security/workflows/CI/badge.svg?branch=main" /></a>
+  <code>AbsintheSecurity</code> provides security utilities to use with <a href="https://absinthe-graphql.org/">Absinthe GraphQL</a>.
+  <a href="https://github.com/mirego/absinthe_security/actions/workflows/ci.yaml?branch=main"><img src="https://github.com/mirego/absinthe_security/actions/workflows/ci.yaml/badge.svg?branch=main" /></a>
   <a href="https://hex.pm/packages/absinthe_security"><img src="https://img.shields.io/hexpm/v/absinthe_security.svg" /></a>
 </div>
 
