@@ -1,7 +1,6 @@
 <div align="center">
-  <img src="https://github.com/mirego/absinthe_security/assets/11348/3814bf39-6a9d-4e72-9029-8e66b0b9f761" width="800" />
-  <br /><br />
-  <code>AbsintheSecurity</code> provides security utilities to use with <a href="https://absinthe-graphql.org/">Absinthe GraphQL</a>.
+  <img src="https://github.com/mirego/absinthe_security/assets/11348/3814bf39-6a9d-4e72-9029-8e66b0b9f761" width="700" />
+  <p><br /><code>AbsintheSecurity</code> provides utilities to improve the security posture of APIs built with <a href="https://absinthe-graphql.org/">Absinthe GraphQL</a>.</p>
   <a href="https://github.com/mirego/absinthe_security/actions/workflows/ci.yaml?branch=main"><img src="https://github.com/mirego/absinthe_security/actions/workflows/ci.yaml/badge.svg?branch=main" /></a>
   <a href="https://hex.pm/packages/absinthe_security"><img src="https://img.shields.io/hexpm/v/absinthe_security.svg" /></a>
 </div>
