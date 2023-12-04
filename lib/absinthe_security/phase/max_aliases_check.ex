@@ -6,7 +6,7 @@ defmodule AbsintheSecurity.Phase.MaxAliasesCheck do
   alias Absinthe.Blueprint
   alias Absinthe.Phase
 
-  @default_max_alias_count 50
+  @default_max_alias_count 100
 
   @spec run(Blueprint.t(), Keyword.t()) :: Phase.result_t()
   def run(input, options \\ []) do
