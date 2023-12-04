@@ -37,7 +37,8 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
           [
             {AbsintheSecurity.Phase.MaxAliasesCheck, options},
             {AbsintheSecurity.Phase.MaxDepthCheck, options},
-            {AbsintheSecurity.Phase.MaxDirectivesCheck, options}
+            {AbsintheSecurity.Phase.MaxDirectivesCheck, options},
+            {AbsintheSecurity.Phase.IntrospectionCheck, options}
           ]
         )
       end
