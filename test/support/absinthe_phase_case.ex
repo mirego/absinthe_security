@@ -16,7 +16,7 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
 
       @spec run_phase(String.t(), Keyword.t()) :: Absinthe.Phase.result_t()
       def run_phase(query, options) do
-        options = Keyword.put(options, :jump_phases, false)
+        options = Keyword.put_new(options, :jump_phases, false)
 
         pipeline = pipeline(unquote(schema), options)
         Absinthe.Pipeline.run(query, Absinthe.Pipeline.upto(pipeline, unquote(phase)))
@@ -40,6 +40,10 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
             {AbsintheSecurity.Phase.MaxDirectivesCheck, options},
             {AbsintheSecurity.Phase.IntrospectionCheck, options}
           ]
+        )
+        |> Pipeline.insert_after(
+          Absinthe.Phase.Document.Result,
+          {AbsintheSecurity.Phase.DisableFieldSuggestions, options}
         )
       end
     end
