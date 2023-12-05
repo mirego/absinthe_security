@@ -15,6 +15,8 @@ This library is designed to enhance the security of your GraphQL API built with 
 
 ***Query Depth Validation***: Guard against overly nested queries by validating the depth of GraphQL queries, mitigating potential performance issues.
 
+***Disable Field Suggestions***: Remove field suggestions from error messages to protect against *field fuzzing* as a method of retrieving the schema without using introspection.
+
 ## Installation
 
 ### Project dependency
