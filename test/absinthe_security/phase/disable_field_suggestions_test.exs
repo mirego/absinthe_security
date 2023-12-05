@@ -5,6 +5,7 @@ defmodule AbsintheSecurity.Phase.DisableFieldSuggestionsTest do
     async: true
 
   defmodule Schema do
+    @moduledoc false
     use Absinthe.Schema
 
     query do
@@ -13,8 +14,8 @@ defmodule AbsintheSecurity.Phase.DisableFieldSuggestionsTest do
     end
 
     object :foo do
-      field :bar, :string
-      field :buzz, :integer
+      field(:bar, :string)
+      field(:buzz, :integer)
     end
   end
 
