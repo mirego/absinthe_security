@@ -27,16 +27,15 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
       defp pipeline(schema, options) do
         unquote(schema)
         |> Pipeline.for_document(options)
-        |> Absinthe.Pipeline.insert_after(
-          Absinthe.Phase.Document.Complexity.Result,
-          [
-            AbsintheSecurity.Phase.IntrospectionCheck,
-            AbsintheSecurity.Phase.MaxAliasesCheck,
-            AbsintheSecurity.Phase.MaxDepthCheck,
-            AbsintheSecurity.Phase.MaxDirectivesCheck
-          ]
-        )
-        |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.DisableFieldSuggestions)
+        |> add_phase(unquote(phase))
+      end
+
+      defp add_phase(pipeline, AbsintheSecurity.Phase.DisableFieldSuggestions = phase) do
+        Absinthe.Pipeline.insert_after(pipeline, Absinthe.Phase.Document.Result, phase)
+      end
+
+      defp add_phase(pipeline, phase) do
+        Absinthe.Pipeline.insert_after(pipeline, Absinthe.Phase.Document.Complexity.Result, phase)
       end
     end
   end
