@@ -21,6 +21,8 @@ defmodule AbsintheSecurity.Phase.DisableFieldSuggestionsTest do
 
   describe "field suggestions" do
     test "are returned when it's enabled" do
+      Application.put_env(:absinthe_security, :enable_field_suggestions, true)
+
       query = """
       query FooObject {
         fooObject {
@@ -36,6 +38,8 @@ defmodule AbsintheSecurity.Phase.DisableFieldSuggestionsTest do
     end
 
     test "are not returned when it's disabled" do
+      Application.put_env(:absinthe_security, :enable_field_suggestions, false)
+
       query = """
       query FooObject {
         fooObject {

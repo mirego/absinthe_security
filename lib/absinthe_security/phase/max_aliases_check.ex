@@ -10,7 +10,7 @@ defmodule AbsintheSecurity.Phase.MaxAliasesCheck do
 
   @spec run(Blueprint.t(), Keyword.t()) :: Phase.result_t()
   def run(input, options \\ []) do
-    max_alias_count = Keyword.get(options, :max_alias_count, @default_max_alias_count)
+    max_alias_count = Application.get_env(:absinthe_security, :max_alias_count, @default_max_alias_count)
     fragments = process_fragments(input, max_alias_count)
     fun = &handle_node(&1, &2, fragments, max_alias_count)
 

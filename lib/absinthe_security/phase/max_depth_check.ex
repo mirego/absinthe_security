@@ -12,7 +12,7 @@ defmodule AbsintheSecurity.Phase.MaxDepthCheck do
   def run(input, options \\ []) do
     fragments = process_fragments(input)
     operation = Blueprint.current_operation(input)
-    {operation, errors} = maybe_add_operation_error(operation, fragments, options)
+    {operation, errors} = maybe_add_operation_error(operation, fragments)
 
     blueprint = Blueprint.update_current(input, fn _ -> operation end)
     blueprint = put_in(blueprint.execution.validation_errors, errors)
@@ -29,8 +29,8 @@ defmodule AbsintheSecurity.Phase.MaxDepthCheck do
     end
   end
 
-  defp maybe_add_operation_error(%{source_location: source_location} = operation, fragments, options) do
-    max_depth_count = Keyword.get(options, :max_depth_count, @default_max_depth_count)
+  defp maybe_add_operation_error(%{source_location: source_location} = operation, fragments) do
+    max_depth_count = Application.get_env(:absinthe_security, :max_depth_count, @default_max_depth_count)
     operation_depth = node_depth(operation, fragments)
 
     if operation_depth > max_depth_count do

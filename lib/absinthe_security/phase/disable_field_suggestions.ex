@@ -7,8 +7,8 @@ defmodule AbsintheSecurity.Phase.DisableFieldSuggestions do
   alias Absinthe.Phase
 
   @spec run(Blueprint.t(), Keyword.t()) :: Phase.result_t()
-  def run(blueprint, options) do
-    if Keyword.get(options, :enable_field_suggestions, false) do
+  def run(blueprint, _options) do
+    if Application.get_env(:absinthe_security, :enable_field_suggestions, false) do
       {:ok, blueprint}
     else
       do_run(blueprint)

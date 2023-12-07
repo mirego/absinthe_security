@@ -19,8 +19,12 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
     end
   end
 
-  describe "introspection check" do
-    test "returns no errors when it's enabled and we query __schema" do
+  describe "introspection check enabled" do
+    setup do
+      Application.put_env(:absinthe_security, :enable_introspection, true)
+    end
+
+    test "returns no errors when we query __schema" do
       query = """
       query Schema {
         __schema {
@@ -31,11 +35,11 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
       }
       """
 
-      assert {:ok, result, _} = run_phase(query, operation_name: "Schema", variables: %{}, enable_introspection: true)
+      assert {:ok, result, _} = run_phase(query, operation_name: "Schema", variables: %{})
       assert Enum.empty?(result.execution.validation_errors)
     end
 
-    test "returns no errors when it's enabled and we do not query any introspection field" do
+    test "returns no errors when we do not query any introspection field" do
       query = """
       query FooObject {
         fooObject {
@@ -47,8 +51,14 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
       assert {:ok, result, _} = run_phase(query, operation_name: "FooObject", variables: %{}, enable_introspection: true)
       assert Enum.empty?(result.execution.validation_errors)
     end
+  end
 
-    test "returns no errors when it's disabled and we do not query any introspection field" do
+  describe "introspection check disabled" do
+    setup do
+      Application.put_env(:absinthe_security, :enable_introspection, false)
+    end
+
+    test "returns no errors when we do not query any introspection field" do
       query = """
       query FooObject {
         fooObject {
@@ -61,7 +71,7 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
       assert Enum.empty?(result.execution.validation_errors)
     end
 
-    test "returns an error when it's disabled and we query an introspection field" do
+    test "returns an error when we query an introspection field" do
       query = """
       query Schema {
         __schema {
@@ -79,7 +89,7 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
       assert errors == ["GraphQL introspection is not allowed but the query contained __schema or __type."]
     end
 
-    test "returns an error when it's disabled and querying SCHEMA in uppercase" do
+    test "returns an error when querying SCHEMA in uppercase" do
       query = """
       query Schema {
         __SCHEMA {
