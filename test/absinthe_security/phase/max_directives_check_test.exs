@@ -36,6 +36,10 @@ defmodule AbsintheSecurity.Phase.MaxDirectivesCheckTest do
     end
   end
 
+  setup do
+    Application.put_env(:absinthe_security, :max_directive_count, 3)
+  end
+
   describe "analysing directive count" do
     test "union runs correctly when less than max directive count" do
       query = """

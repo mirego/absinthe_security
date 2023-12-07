@@ -10,6 +10,8 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
     quote do
       use ExUnit.Case, unquote(opts)
 
+      alias AbsintheSecurity.Pipeline
+
       @doc """
       Execute the pipeline up to and through a phase.
       """
@@ -23,28 +25,18 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
       end
 
       defp pipeline(schema, options) do
-        options =
-          Keyword.merge(options,
-            max_alias_count: 5,
-            max_directive_count: 3,
-            max_depth_count: 4
-          )
-
         unquote(schema)
         |> Pipeline.for_document(options)
-        |> Pipeline.insert_after(
+        |> Absinthe.Pipeline.insert_after(
           Absinthe.Phase.Document.Complexity.Result,
           [
-            {AbsintheSecurity.Phase.MaxAliasesCheck, options},
-            {AbsintheSecurity.Phase.MaxDepthCheck, options},
-            {AbsintheSecurity.Phase.MaxDirectivesCheck, options},
-            {AbsintheSecurity.Phase.IntrospectionCheck, options}
+            AbsintheSecurity.Phase.IntrospectionCheck,
+            AbsintheSecurity.Phase.MaxAliasesCheck,
+            AbsintheSecurity.Phase.MaxDepthCheck,
+            AbsintheSecurity.Phase.MaxDirectivesCheck
           ]
         )
-        |> Pipeline.insert_after(
-          Absinthe.Phase.Document.Result,
-          {AbsintheSecurity.Phase.DisableFieldSuggestions, options}
-        )
+        |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.DisableFieldSuggestions)
       end
     end
   end

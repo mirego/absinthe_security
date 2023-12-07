@@ -36,6 +36,10 @@ defmodule AbsintheSecurity.Phase.MaxAliasesCheckTest do
     end
   end
 
+  setup do
+    Application.put_env(:absinthe_security, :max_alias_count, 5)
+  end
+
   describe "analysing alias count" do
     test "union runs correctly when less than max alias count" do
       query = """

@@ -37,6 +37,10 @@ defmodule AbsintheSecurity.Phase.MaxDepthCheckTest do
     end
   end
 
+  setup do
+    Application.put_env(:absinthe_security, :max_depth_count, 4)
+  end
+
   describe "analysing depth count" do
     test "union runs correctly when less than max depth count" do
       query = """
