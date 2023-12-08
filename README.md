@@ -54,66 +54,106 @@ end
 
 Disable schema introspection queries at runtime.
 
+#### Configuration
+
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.IntrospectionCheck,
   enable_introspection: System.get_env("GRAPHQL_ENABLE_INTROSPECTION")
 ```
 
+#### Pipeline
+
 ```elixir
 |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.IntrospectionCheck)
 ```
 
+#### Reference
+
+<https://docs.escape.tech/vulnerabilities/information_disclosure/introspection_enabled>
+
 ### `AbsintheSecurity.Phase.DisableFieldSuggestions`
 
 Disable field suggestions in responses at runtime.
+
+#### Configuration
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.FieldSuggestionsCheck,
   enable_field_suggestions: System.get_env("GRAPHQL_ENABLE_FIELD_SUGGESTIONS")
 ```
 
+#### Pipeline
+
 ```elixir
 |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.FieldSuggestionsCheck)
 ```
 
+#### Reference
+
+<https://docs.escape.tech/vulnerabilities/information_disclosure/graphql_field_suggestion>
+
 ### `AbsintheSecurity.Phase.MaxAliasesCheck`
 
 Restrict the number of aliases that can be used in queries.
+
+#### Configuration
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.MaxAliasesCheck,
   max_alias_count: 100
 ```
 
+#### Pipeline
+
 ```elixir
 |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxAliasesCheck)
 ```
 
+#### Reference
+
+<https://docs.escape.tech/vulnerabilities/resource_limitation/graphql_alias_limit>
+
 ### `AbsintheSecurity.Phase.MaxDepthCheck`
 
 Restrict the depth level that can be used in queries.
+
+#### Configuration
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.MaxDepthCheck,
   max_depth_count: 100
 ```
 
+#### Pipeline
+
 ```elixir
 |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDepthCheck)
 ```
 
+#### Reference
+
+<https://docs.escape.tech/vulnerabilities/resource_limitation/graphql_depth_limit>
+
 ### `AbsintheSecurity.Phase.MaxDirectivesCheck`
 
 Restrict the number of directives that can be used in queries.
+
+#### Configuration
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.MaxDirectivesCheck,
   max_directive_count: 100
 ```
 
+#### Pipeline
+
 ```elixir
 |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDirectivesCheck)
 ```
+
+#### Reference
+
+<https://docs.escape.tech/vulnerabilities/resource_limitation/graphql_directive_overload>
 
 ## License
 
