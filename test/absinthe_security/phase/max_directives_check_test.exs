@@ -37,7 +37,7 @@ defmodule AbsintheSecurity.Phase.MaxDirectivesCheckTest do
   end
 
   setup do
-    Application.put_env(:absinthe_security, :max_directive_count, 3)
+    Application.put_env(:absinthe_security, AbsintheSecurity.Phase.MaxDirectivesCheck, max_directive_count: 3)
   end
 
   describe "analysing directive count" do

@@ -30,7 +30,8 @@ defmodule AbsintheSecurity.Phase.MaxDepthCheck do
   end
 
   defp maybe_add_operation_error(%{source_location: source_location} = operation, fragments) do
-    max_depth_count = Application.get_env(:absinthe_security, :max_depth_count, @default_max_depth_count)
+    phase_options = Application.get_env(:absinthe_security, __MODULE__, [])
+    max_depth_count = Keyword.get(phase_options, :max_depth_count, @default_max_depth_count)
     operation_depth = node_depth(operation, fragments)
 
     if operation_depth > max_depth_count do

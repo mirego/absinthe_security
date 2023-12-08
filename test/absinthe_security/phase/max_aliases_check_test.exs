@@ -37,7 +37,7 @@ defmodule AbsintheSecurity.Phase.MaxAliasesCheckTest do
   end
 
   setup do
-    Application.put_env(:absinthe_security, :max_alias_count, 5)
+    Application.put_env(:absinthe_security, AbsintheSecurity.Phase.MaxAliasesCheck, max_alias_count: 5)
   end
 
   describe "analysing alias count" do

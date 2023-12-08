@@ -10,7 +10,8 @@ defmodule AbsintheSecurity.Phase.MaxDirectivesCheck do
 
   @spec run(Blueprint.t(), Keyword.t()) :: Phase.result_t()
   def run(input, options \\ []) do
-    max_directive_count = Application.get_env(:absinthe_security, :max_directive_count, @default_max_directive_count)
+    phase_options = Application.get_env(:absinthe_security, __MODULE__, [])
+    max_directive_count = Keyword.get(phase_options, :max_directive_count, @default_max_directive_count)
     fragments = process_fragments(input, max_directive_count)
     fun = &handle_node(&1, &2, fragments, max_directive_count)
 
