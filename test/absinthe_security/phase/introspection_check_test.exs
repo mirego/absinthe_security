@@ -21,7 +21,7 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
 
   describe "introspection check enabled" do
     setup do
-      Application.put_env(:absinthe_security, :enable_introspection, true)
+      Application.put_env(:absinthe_security, AbsintheSecurity.Phase.IntrospectionCheck, enable_introspection: true)
     end
 
     test "returns no errors when we query __schema" do
@@ -55,7 +55,7 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheckTest do
 
   describe "introspection check disabled" do
     setup do
-      Application.put_env(:absinthe_security, :enable_introspection, false)
+      Application.put_env(:absinthe_security, AbsintheSecurity.Phase.IntrospectionCheck, enable_introspection: false)
     end
 
     test "returns no errors when we do not query any introspection field" do

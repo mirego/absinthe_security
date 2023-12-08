@@ -30,7 +30,7 @@ defmodule AbsintheSecurityTest.AbsinthePhaseCase do
         |> add_phase(unquote(phase))
       end
 
-      defp add_phase(pipeline, AbsintheSecurity.Phase.DisableFieldSuggestions = phase) do
+      defp add_phase(pipeline, AbsintheSecurity.Phase.FieldSuggestionsCheck = phase) do
         Absinthe.Pipeline.insert_after(pipeline, Absinthe.Phase.Document.Result, phase)
       end
 

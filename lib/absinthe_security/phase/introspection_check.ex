@@ -8,7 +8,10 @@ defmodule AbsintheSecurity.Phase.IntrospectionCheck do
 
   @spec run(Blueprint.t(), Keyword.t()) :: Phase.result_t()
   def run(input, options \\ []) do
-    if Application.get_env(:absinthe_security, :enable_introspection, false) do
+    phase_options = Application.get_env(:absinthe_security, __MODULE__, [])
+    enable_introspection = Keyword.get(phase_options, :enable_introspection, false)
+
+    if enable_introspection do
       {:ok, input}
     else
       do_run(input, options)

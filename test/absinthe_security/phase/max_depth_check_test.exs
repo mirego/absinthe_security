@@ -38,7 +38,7 @@ defmodule AbsintheSecurity.Phase.MaxDepthCheckTest do
   end
 
   setup do
-    Application.put_env(:absinthe_security, :max_depth_count, 4)
+    Application.put_env(:absinthe_security, AbsintheSecurity.Phase.MaxDepthCheck, max_depth_count: 4)
   end
 
   describe "analysing depth count" do

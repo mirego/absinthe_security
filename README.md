@@ -5,38 +5,115 @@
   <a href="https://hex.pm/packages/absinthe_security"><img src="https://img.shields.io/hexpm/v/absinthe_security.svg" /></a>
 </div>
 
-## Description
-
-This library is designed to enhance the security of your GraphQL API built with Absinthe by providing convenient utilities for query validation.
-
-***Directive Limit Validation***: Ensure GraphQL queries don't contain an excessive number of directives, preventing potential security vulnerabilities.
-
-***Alias Limit Validation***: Validate queries to ensure they don't use an excessive number of aliases, promoting efficient and maintainable code.
-
-***Query Depth Validation***: Guard against overly nested queries by validating the depth of GraphQL queries, mitigating potential performance issues.
-
-***Disable Field Suggestions***: Remove field suggestions from error messages to protect against *field fuzzing* as a method of retrieving the schema without using introspection.
-
 ## Installation
-
-### Project dependency
 
 Add `absinthe_security` to the `deps` function in your project’s `mix.exs` file:
 
 ```elixir
 defp deps do
   [
-    {:absinthe_security, "~> 1.0"}
+    {:absinthe_security, "~> 0.1"}
   ]
 end
 ```
 
 Then run `mix do deps.get, deps.compile` inside your project’s directory.
 
-## Requirements
+## Usage
 
-- [Git](https://git-scm.com)
-- [Elixir](https://elixir-lang.org/) ~1.14
+First, initialize `Absinthe.Plug` with a custom configuration:
+
+```elixir
+forward("/graphql",
+  to: Absinthe.Plug,
+  init_opts: MyAppGraphQL.configuration()
+)
+```
+
+Your custom configuration (with all of `AbsintheSecurity`’s checks) might look like this:
+
+```elixir
+defmodule MyAppGraphQL do
+  def configuration do
+    [schema: MyAppGraphQL.Schema, pipeline: {__MODULE__, :absinthe_pipeline}]
+  end
+
+  def absinthe_pipeline(config, options) do
+    config
+    |> Absinthe.Plug.default_pipeline(options)
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.IntrospectionCheck)
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.FieldSuggestionsCheck)
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxAliasesCheck)
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDepthCheck)
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDirectivesCheck)
+  end
+end
+```
+
+### `AbsintheSecurity.Phase.IntrospectionCheck`
+
+Disable schema introspection queries at runtime.
+
+```elixir
+config :absinthe_security, AbsintheSecurity.Phase.IntrospectionCheck,
+  enable_introspection: System.get_env("GRAPHQL_ENABLE_INTROSPECTION")
+```
+
+```elixir
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.IntrospectionCheck)
+```
+
+### `AbsintheSecurity.Phase.DisableFieldSuggestions`
+
+Disable field suggestions in responses at runtime.
+
+```elixir
+config :absinthe_security, AbsintheSecurity.Phase.FieldSuggestionsCheck,
+  enable_field_suggestions: System.get_env("GRAPHQL_ENABLE_FIELD_SUGGESTIONS")
+```
+
+```elixir
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.FieldSuggestionsCheck)
+```
+
+### `AbsintheSecurity.Phase.MaxAliasesCheck`
+
+Restrict the number of aliases that can be used in queries.
+
+```elixir
+config :absinthe_security, AbsintheSecurity.Phase.MaxAliasesCheck,
+  max_alias_count: 100
+```
+
+```elixir
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxAliasesCheck)
+```
+
+### `AbsintheSecurity.Phase.MaxDepthCheck`
+
+Restrict the depth level that can be used in queries.
+
+```elixir
+config :absinthe_security, AbsintheSecurity.Phase.MaxDepthCheck,
+  max_depth_count: 100
+```
+
+```elixir
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDepthCheck)
+```
+
+### `AbsintheSecurity.Phase.MaxDirectivesCheck`
+
+Restrict the number of directives that can be used in queries.
+
+```elixir
+config :absinthe_security, AbsintheSecurity.Phase.MaxDirectivesCheck,
+  max_directive_count: 100
+```
+
+```elixir
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDirectivesCheck)
+```
 
 ## License
 
