@@ -30,7 +30,7 @@ forward("/graphql",
 )
 ```
 
-Your custom configure (with all of `AbsintheSecurity`’’s checks) might look like this:
+Your custom configuration (with all of `AbsintheSecurity`’s checks) might look like this:
 
 ```elixir
 defmodule MyAppGraphQL do
@@ -78,7 +78,7 @@ config :absinthe_security, AbsintheSecurity.Phase.FieldSuggestionsCheck,
 
 ### `AbsintheSecurity.Phase.MaxAliasesCheck`
 
-Restrict the number of aliases used in queries.
+Restrict the number of aliases that can be used in queries.
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.MaxAliasesCheck,
@@ -91,7 +91,7 @@ config :absinthe_security, AbsintheSecurity.Phase.MaxAliasesCheck,
 
 ### `AbsintheSecurity.Phase.MaxDepthCheck`
 
-Restrict the depth level in queries.
+Restrict the depth level that can be used in queries.
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.MaxDepthCheck,
@@ -104,7 +104,7 @@ config :absinthe_security, AbsintheSecurity.Phase.MaxDepthCheck,
 
 ### `AbsintheSecurity.Phase.MaxDirectivesCheck`
 
-Restrict the number of directives used in queries.
+Restrict the number of directives that can be used in queries.
 
 ```elixir
 config :absinthe_security, AbsintheSecurity.Phase.MaxDirectivesCheck,
