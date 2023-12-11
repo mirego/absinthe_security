@@ -39,6 +39,8 @@ defmodule MyAppGraphQL do
   end
 
   def absinthe_pipeline(config, options) do
+    options = Absinthe.Pipeline.options(options)
+
     config
     |> Absinthe.Plug.default_pipeline(options)
     |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.IntrospectionCheck, options})
