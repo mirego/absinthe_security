@@ -39,13 +39,15 @@ defmodule MyAppGraphQL do
   end
 
   def absinthe_pipeline(config, options) do
+    options = Absinthe.Pipeline.options(options)
+
     config
     |> Absinthe.Plug.default_pipeline(options)
-    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.IntrospectionCheck)
-    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.FieldSuggestionsCheck)
-    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxAliasesCheck)
-    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDepthCheck)
-    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDirectivesCheck)
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.IntrospectionCheck, options})
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, {AbsintheSecurity.Phase.FieldSuggestionsCheck, options})
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.MaxAliasesCheck, options})
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.MaxDepthCheck, options})
+    |> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.MaxDirectivesCheck, options})
   end
 end
 ```
@@ -64,7 +66,7 @@ config :absinthe_security, AbsintheSecurity.Phase.IntrospectionCheck,
 #### Pipeline
 
 ```elixir
-|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.IntrospectionCheck)
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.IntrospectionCheck, options})
 ```
 
 #### Reference
@@ -85,7 +87,7 @@ config :absinthe_security, AbsintheSecurity.Phase.FieldSuggestionsCheck,
 #### Pipeline
 
 ```elixir
-|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, AbsintheSecurity.Phase.FieldSuggestionsCheck)
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Result, {AbsintheSecurity.Phase.FieldSuggestionsCheck, options})
 ```
 
 #### Reference
@@ -106,7 +108,7 @@ config :absinthe_security, AbsintheSecurity.Phase.MaxAliasesCheck,
 #### Pipeline
 
 ```elixir
-|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxAliasesCheck)
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.MaxAliasesCheck, options})
 ```
 
 #### Reference
@@ -127,7 +129,7 @@ config :absinthe_security, AbsintheSecurity.Phase.MaxDepthCheck,
 #### Pipeline
 
 ```elixir
-|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDepthCheck)
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.MaxDepthCheck, options})
 ```
 
 #### Reference
@@ -148,7 +150,7 @@ config :absinthe_security, AbsintheSecurity.Phase.MaxDirectivesCheck,
 #### Pipeline
 
 ```elixir
-|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, AbsintheSecurity.Phase.MaxDirectivesCheck)
+|> Absinthe.Pipeline.insert_after(Absinthe.Phase.Document.Complexity.Result, {AbsintheSecurity.Phase.MaxDirectivesCheck, options})
 ```
 
 #### Reference
